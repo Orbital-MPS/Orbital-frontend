@@ -1,24 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router,Switch,Route,Link} from 'react-router-dom'
+import Movement from './Components/Movement';
+import Users from './Components/users'
+import Login from './Components/login';
+
+
 
 function App() {
+  
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+ 
+    
+    <Router>
+        
+    <header className=''>
+   
+          <ul className='flex border-red-600 border-2  max-w-screen flex-row-reverse z-2'>
+            <li className='p-2'>
+              <Link to="/">Home</Link>
+            
+            </li>
+            <li className='p-2'>
+
+              <Link to="/projects/api/projects">Projects</Link>
+            </li>
+            <li className='p-2'>
+
+              <Link to="/login">Log in</Link>
+            </li>
+     
+         
+            </ul>
+  
+          
+    </header>
+
+
+        <Switch>
+          <Route path="/projects/api/projects">
+       
+          <Movement />
+         
+           
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/">
+         
+          </Route>
+        </Switch>
+      
+  
+    </Router>
+      
+
   );
 }
 
