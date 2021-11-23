@@ -4,9 +4,12 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.0",
+    "@tensorflow-models/speech-commands": "^0.5.4",
+    "@tensorflow/tfjs": "^3.11.0",
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.24.0",
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "dotenv": "^10.0.0",
@@ -19,7 +22,8 @@
     "react-icons": "^4.3.1",
     "react-leaflet": "^3.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "websocket": "^1.0.34"
   },
   "scripts": {
     "start": "craco start",
@@ -42,5 +46,6 @@
     "autoprefixer": "^9.8.8",
     "postcss": "^7.0.39",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
-  }
+  },
+  "proxy":"http://localhost:5000/"
 }
