@@ -19,7 +19,7 @@ const Home = () => {
         ></video>
       </div>
       <div className="absolute w-full h-full   bg-opacity-70 bg-black " >
-  <header className="text-white">OVERLAYER</header>
+  <header className="text-white">OVERLAYER  AND ANOTHER OVERLAY</header>
 </div>
     </>
   );
