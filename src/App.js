@@ -1,5 +1,5 @@
 import "./index.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes,Link} from "react-router-dom";
 import Movement from "./Components/Movement";
 
 import Login from "./Components/Login";
@@ -26,7 +26,7 @@ function App() {
     };
     checkLogin();
   }, []);
-
+console.log(Routes)
   return (
     <Router>
       <header className="h-max  w-full z-40 bg-gradient-to-t from-blue-300 via-black to-black">
@@ -56,17 +56,14 @@ function App() {
         </ul>
       </header>
 
-      <Switch>
-        <Route path="/projects/api/projects">
-          <Movement />
-        </Route>
-        <Route path="/Login">
-          <Login setIsLogIn={(isLogin, setIsLogin)} />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/projects/api/projects" element={<Movement />}/>
+        <Route path="/Login" element={<Login setIsLogIn={(isLogin, setIsLogin)} />}/>
+          {/* <Login setIsLogIn={(isLogin, setIsLogin)} /> */}
+
+        <Route path="/" element={ <Home />}/>
+        
+      </Routes>
     </Router>
   );
 }
