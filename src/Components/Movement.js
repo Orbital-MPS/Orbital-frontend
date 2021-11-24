@@ -77,7 +77,7 @@ const Movement = () => {
   }, [client]);
 
   useEffect(() => {
-    const frontclient = new w3s("ws://localhost:5000"); //  Initialize  the client
+    const frontclient = new w3s("ws://gentle-thicket-67896.herokuapp.com/"); //  Initialize  the client
     setClient(frontclient); //  Connect  client  with the server
   }, []);
 
