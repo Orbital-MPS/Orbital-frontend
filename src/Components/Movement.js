@@ -23,8 +23,9 @@ const Movement = () => {
   const [gps, setGps] = useState([0, 0]);
   const gpsCount = useRef(0);
   const [action, setAction] = useState(null);
-  const [counter, setCounter] = useState(0)
-  const [action1, setAction1] = useState("")
+  const [counter, setCounter] = useState(0);
+  const [action1, setAction1] = useState("");
+  const [fromserver,setFromserver]  =  useState('');
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -33,9 +34,9 @@ const Movement = () => {
         const verified = await axios.get("/users/verify", {
           headers: { Authorization: token },
         });
-        console.log({verified});
-        if(verified.data === true){
-          setIsLogin(true)
+        console.log({ verified });
+        if (verified.data === true) {
+          setIsLogin(true);
         }
       } else {
         setIsLogin(false);
@@ -54,7 +55,8 @@ const Movement = () => {
       client.onmessage = (message) => {
         //  Send  listen  for  events  from  and  to   the  server
         const dataFromServer = JSON.parse(message.data); //  Parse  the incoming messages
-        console.log('this  are  all  arrays',dataFromServer);
+        console.log("this  are  all  arrays", dataFromServer);
+        setFromserver(dataFromServer);
         switch (
           dataFromServer.type //  Switch  between  different types  of  messages  and render  it  to  the  front end
         ) {
@@ -107,45 +109,40 @@ const Movement = () => {
     );
   };
   useEffect(() => {
+    if (!action1) return;
 
-    if(!action1) return
-
-    // setup interval for the action and perform it    
+    // setup interval for the action and perform it
     const handle = setInterval(() => {
-
-      switch(action1) {
+      switch (action1) {
         case "Up":
-          setCounter(c => c+1)
+          setCounter((c) => c + 1);
           break;
         case "Down":
-          setCounter(c => c-1)
+          setCounter((c) => c - 1);
           break;
         default:
       }
-      console.log(`Doing ${action1}...`, Date.now())
-    }, 1000)
+      console.log(`Doing ${action1}...`, Date.now());
+    }, 1000);
 
     // action changed / cleared => clear interval with old action running...
     return () => {
-      console.log("Action stopped!")
-      clearInterval(handle)
-    }
-
-  }, [action1])
+      console.log("Action stopped!");
+      clearInterval(handle);
+    };
+  }, [action1]);
   const onPlusEnter = () => {
-    setAction("Up")
-  }
+    setAction("Up");
+  };
 
   const onMinusEnter = () => {
-    setAction("Down")
-  }
+    setAction("Down");
+  };
 
   // stop interval
   const onMouseLeave = () => {
-    setAction("") // clear action and stop timer
-  }
-
-
+    setAction(""); // clear action and stop timer
+  };
 
   useEffect(() => {
     if (action === "go") {
@@ -184,15 +181,12 @@ const Movement = () => {
             >
               <BsArrowUpCircleFill size={70} />
             </div>
-            <div
-              
-              className="border-2 border-black  grid justify-items-center m-2"
-            >
+            <div className="border-2 border-black  grid justify-items-center m-2">
               <BsArrowDownCircleFill size={70} />
             </div>
           </div>
           <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black ">
-            {" "}
+            {fromserver  ?  'Loading...':  fromserver};
             5
           </div>
           <Speech setAction={setAction} />
