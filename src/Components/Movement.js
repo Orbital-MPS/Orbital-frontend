@@ -30,7 +30,7 @@ const Movement = () => {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
       if (token) {
-        const verified = await axios.get("https://gentle-thicket-67896.herokuapp.com/users/verify", {
+        const verified = await axios.get("/users/verify", {
           headers: { Authorization: token },
         });
         console.log({verified});
@@ -54,6 +54,7 @@ const Movement = () => {
       client.onmessage = (message) => {
         //  Send  listen  for  events  from  and  to   the  server
         const dataFromServer = JSON.parse(message.data); //  Parse  the incoming messages
+        console.log(message.n_list);
         switch (
           dataFromServer.type //  Switch  between  different types  of  messages  and render  it  to  the  front end
         ) {
