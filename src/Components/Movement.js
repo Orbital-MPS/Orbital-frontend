@@ -186,7 +186,7 @@ const Movement = () => {
             </div>
           </div>
           <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black ">
-            {fromserver  ?  'Loading...':  fromserver};
+            {fromserver};
             5
           </div>
           <Speech setAction={setAction} />
