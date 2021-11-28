@@ -54,7 +54,7 @@ const Movement = () => {
       client.onmessage = (message) => {
         //  Send  listen  for  events  from  and  to   the  server
         const dataFromServer = JSON.parse(message.data); //  Parse  the incoming messages
-        console.log('this  are  all  arrays',dataFromServer.n_list);
+        console.log('this  are  all  arrays',dataFromServer);
         switch (
           dataFromServer.type //  Switch  between  different types  of  messages  and render  it  to  the  front end
         ) {
