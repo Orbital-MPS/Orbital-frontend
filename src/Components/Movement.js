@@ -56,7 +56,7 @@ const Movement = () => {
         //  Send  listen  for  events  from  and  to   the  server
         const dataFromServer = JSON.parse(message.data); //  Parse  the incoming messages
         console.log("this  are  all  arrays", dataFromServer);
-        setFromserver(dataFromServer);
+        setFromserver(dataFromServer.n_list);
         switch (
           dataFromServer.type //  Switch  between  different types  of  messages  and render  it  to  the  front end
         ) {
