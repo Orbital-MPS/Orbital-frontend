@@ -8,7 +8,7 @@ const Home = () => {
 
         <video
           src={
-            process.env.PUBLIC_URL + "/video/pexels-pavel-danilyuk-8084623.mp4"
+            process.env.PUBLIC_URL + "https://master.d3ksrba71tzc64.amplifyapp.com/video/pexels-pavel-danilyuk-8084623.mp4"
           }
           type="video/mp4"
           autoPlay
