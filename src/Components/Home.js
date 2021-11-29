@@ -17,7 +17,7 @@ const Home = () => {
           id="myVideo"
           className="fixed w-full "
         ></video>
-      </div>
+      </div>s
       <div className="absolute w-full h-full   bg-opacity-70 bg-black " >
   <header className="text-white">AMAZON DEPLOYMENT</header>
 </div>
