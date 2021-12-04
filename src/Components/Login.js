@@ -1,11 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import SignUp from "./SignUp";
 
 const Login = ({ setIsLogin }) => {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [err, setErr] = useState("");
 
+
+  
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -15,7 +18,7 @@ const Login = ({ setIsLogin }) => {
   const registerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/register", {
+      const res = await axios.post("/users/register", {
         username: user.name,
         email: user.email,
         password: user.password,
@@ -30,7 +33,7 @@ const Login = ({ setIsLogin }) => {
   const loginSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/login", {
+      const res = await axios.post("/users/login", {
         email: user.email,
         password: user.password,
       });
@@ -41,7 +44,10 @@ const Login = ({ setIsLogin }) => {
       err.response.data.msg && setErr(err.response.data.msg);
     }
   };
-
+  const CustomNotification  =  ()=>{
+    if(!err)  return  err;
+    return  err;
+  }
   const [onLogin, setOnLogin] = useState(false);
   const style = {
     visibility: onLogin ? "visible" : "hidden",
@@ -49,10 +55,14 @@ const Login = ({ setIsLogin }) => {
   };
   return (
     <>
-      <section className="login-page">
-        <div className="login create-note">
-          <div className="text-3xl">Login</div>
+     
+     <div className='relative  h-screen     hover:shadow-xl  grid  place-items-center  '>
+          <div  className='border-2  border-grey-100  p-10  m-10 hover:shadow-xl'>
+         
+         <div>
+          
           <form onSubmit={loginSubmit}>
+           
             <input
               type="email"
               name="email"
@@ -60,6 +70,7 @@ const Login = ({ setIsLogin }) => {
               placeholder="Email"
               required
               value={user.email}
+              className='placeholder-shadow-xl outline-none text-center border-b-2'
               onChange={onChangeInput}
             />
 
@@ -71,60 +82,23 @@ const Login = ({ setIsLogin }) => {
               required
               value={user.password}
               autoComplete="true"
+              className="placeholder-shadow-xl outline-none text-center border-b-2"
               onChange={onChangeInput}
             />
 
             <button type="submit">Login</button>
             <p>
               You don't have an account?
-              <span onClick={() => setOnLogin(true)}> Register Now</span>
+              <span onClick={() => setOnLogin(true)}> <a href="/SignUp"> REGISTER</a></span>
             </p>
-            <h3>{err}</h3>
+            
           </form>
-        </div>
-        <div className="register create-note">
-          <div>Register</div>
-          <form onSubmit={registerSubmit}>
-            <input
-              type="text"
-              name="name"
-              id="register-name"
-              placeholder="User Name"
-              required
-              value={user.name}
-              onChange={onChangeInput}
-            />
-
-            <input
-              type="email"
-              name="email"
-              id="register-email"
-              placeholder="Email"
-              required
-              value={user.email}
-              onChange={onChangeInput}
-            />
-
-            <input
-              type="password"
-              name="password"
-              id="register-password"
-              placeholder="Password"
-              required
-              value={user.password}
-              autoComplete="true"
-              onChange={onChangeInput}
-            />
-
-            <button type="submit">Register</button>
-            <p>
-              You have an account?
-              <span onClick={() => setOnLogin(false)}> Login Now</span>
-            </p>
-            <h3>{err}</h3>
-          </form>
-        </div>
-      </section>
+            <h3  className="  absolute  top-20  right-0  animate-wiggle rounded-full bg-purple-400 opacity-75"><CustomNotification/></h3>
+          
+      </div>
+      </div>
+      </div>
+      <SignUp/>
     </>
   );
 };

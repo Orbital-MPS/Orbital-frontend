@@ -1,11 +1,12 @@
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes,Link} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes,Link,Navigate} from "react-router-dom";
 import Movement from "./Components/Movement";
-
+import LogOut  from  './Components/LogOut'
 import Login from "./Components/Login";
 import Home from "./Components/Home";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import SignUp from "./Components/SignUp";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -27,9 +28,10 @@ function App() {
     checkLogin();
   }, []);
 console.log(Routes)
+console.log(isLogin);
   return (
     <Router>
-      <header className="h-max  w-full z-40 bg-gradient-to-t from-blue-300 via-black to-black">
+      <header className="h-max  fixed  w-full z-40 bg-gradient-to-t from-blue-100 via-indigo-500 to-purple-800">
         <ul className="flex border-white border-4  border-opacity-20 max-w-screen flex-row-reverse ">
           <li className="p-2">
             <Link to="/" className="text-white fancy-link font-anton">
@@ -43,6 +45,10 @@ console.log(Routes)
             >
               Projects
             </Link>
+          </li>
+          <li  className="p-2">
+
+          {isLogin  ?  <LogOut />:''}
           </li>
 
           {/* <li className='p-2'>
@@ -59,6 +65,7 @@ console.log(Routes)
       <Routes>
         <Route path="/projects/api/projects" element={<Movement />}/>
         <Route path="/Login" element={<Login setIsLogIn={(isLogin, setIsLogin)} />}/>
+        <Route  path="/SignUp"  element={<SignUp/>}/>
           {/* <Login setIsLogIn={(isLogin, setIsLogin)} /> */}
 
         <Route path="/" element={ <Home />}/>

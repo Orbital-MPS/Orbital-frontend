@@ -23,6 +23,8 @@
     "react-leaflet": "^3.2.0",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
+    "react-toastify": "^8.1.0",
+    "tailwind-scrollbar-hide": "^1.1.6",
     "web-vitals": "^1.1.2",
     "websocket": "^1.0.34"
   },
@@ -46,7 +48,8 @@
   "devDependencies": {
     "autoprefixer": "^9.8.8",
     "postcss": "^7.0.39",
+    "tailwind-scroll-behavior": "^1.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
-  "proxy": "https://gentle-thicket-67896.herokuapp.com"
+  "proxy": "http://localhost:5000/"
 }

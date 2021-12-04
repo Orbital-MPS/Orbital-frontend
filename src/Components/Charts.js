@@ -37,7 +37,7 @@ const data = {
 
 function LiveChart({temp}) {
     
-  
+      console.log(temp)
       const options = {
         elements: {
           line: {
@@ -81,19 +81,19 @@ function LiveChart({temp}) {
             {
               ticks: {
                 beginAtZero: true,
-                max: 30
+                max: 50
               }
             }
           ]
         }
       };
   return (
-      <div className="max-h-20">
+      
 
-    <div className=''>
-      <Line data={data} options={options} />
+    <div className='bg-red-200  h-full  grid  items-center'>
+      <Line data={data} options={options}   />
     </div>
-       </div>
+      
   );
 }
 

@@ -26,7 +26,7 @@ const Movement = () => {
   const [counter, setCounter] = useState(0);
   const [action1, setAction1] = useState("");
   const [fromserver,setFromserver]  =  useState('');
-
+  const [users,setUsers] =  useState([])
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
@@ -44,7 +44,6 @@ const Movement = () => {
     };
     checkLogin();
   }, []);
-
   useEffect(() => {
     //  Run websocket  CLIENT  and keep it active while client  is  connected
     if (!client) {
@@ -72,6 +71,9 @@ const Movement = () => {
             // console.log('LOCATION :', )
             console.log("COUNT :", gpsCount.current); // Add more feautures
             break;
+            case 'left':
+            setUsers(old=>[...old,'gosho'])
+            break;
           default:
             break;
         }
@@ -80,8 +82,10 @@ const Movement = () => {
   }, [client]);
 
   useEffect(() => {
-    const frontclient = new w3s("wss://gentle-thicket-67896.herokuapp.com/"); //  Initialize  the client
+                           //wss://gentle-thicket-67896.herokuapp.com/
+    const frontclient = new w3s("ws://localhost:5000/"); //  Initialize  the client
     setClient(frontclient); //  Connect  client  with the server
+    
   }, []);
 
   const Run = () => {
@@ -89,6 +93,7 @@ const Movement = () => {
     client.send(
       JSON.stringify({
         x: 160,
+        type:'left'
       })
     );
   };
@@ -97,6 +102,7 @@ const Movement = () => {
     client.send(
       JSON.stringify({
         x: 120,
+        type:'forward'
       })
     );
   };
@@ -151,50 +157,58 @@ const Movement = () => {
     console.log("rUN");
   }, [action]);
   return (
-    <div className="fixed w-screen">
+    <div className="fixed w-screen  ">
       {isLogin ? (
-        <div className="h-screen  grid grid-cols-4 grid-flow-col gap-4 border-2 border-black pt-14 px-4 pb-4">
-          <Leaf coordinate={gps}></Leaf>
-          <div className="row-start-1 row-end-1 col-start-1 col-end-2 border-2 border-black">
+        
+        <div className="sm:h-screen  sm:grid grid-cols-5 grid-flow-col gap-4 border-2 border-black pt-14 px-4 pb-4  ">
+          <Leaf coordinate={gps} ></Leaf>
+          <div className="row-start-1 row-end-2   col-start-1 col-end-2 border-2 border-black  sm:row-start-1 sm:row-end-2 ">
             <LiveChart temp={temp} />
           </div>
 
-          <div className="">3</div>
+          <div >
+          
+          </div>
 
-          <div className="col-span-1 border-2 border-black ">
+          <div className="col-span-1  ">
             <div
               onMouseDown={() => Run()}
               onMouseUp={() => Stop()}
-              className="  border-black border-2 flex justify-contet "
+              className="  border-black border-2 h-full  flex  items-center  place-content-evenly   "
               type=""
             >
-              <BsArrowLeftCircleFill size={70} />s
+              <div className="">
+
+              <BsArrowLeftCircleFill size={70} />
+              </div>
               <BsArrowRightCircleFill size={70} />
             </div>
           </div>
-
-          <div className="col-start-4 col-end-5 border-2 border-black grid place-items-center">
+          <div className="col-start-5 col-end-6 row-start-1  max-h-screen row-end-4   border-2 border-black overflow-y-scroll  scrollbar-hide  h-max select-none">LOGS <hr/>{users.map(u=><div  className="overflow-hidden">{u}:</div>)}</div>
+          
+          <div className="col-start-6 col-end-5 border-2 border-black grid place-items-center">
             <div
               onMouseDown={() => Up()}
-              className="border-2 border-black  grid justify-items-center  m-2"
+              className="  grid justify-items-center  m-6"
               type=""
             >
               <BsArrowUpCircleFill size={70} />
             </div>
-            <div className="border-2 border-black  grid justify-items-center m-2">
+            <div className="  grid justify-items-center m-2">
               <BsArrowDownCircleFill size={70} />
             </div>
           </div>
-          <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black ">
+          <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black select-none">
             {fromserver};
             5
           </div>
           <Speech setAction={setAction} />
-          {action ? <div>{action}</div> : <div>No action detected </div>}
+          {action ? <div  className="border-2  border-black">{action}</div> : <div  className="select-none border-2  border-black">No action detected </div>}
         </div>
       ) : (
         <Login setIsLogin={setIsLogin} />
       )}
+      
     </div>
   );
 };

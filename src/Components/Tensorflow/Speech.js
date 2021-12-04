@@ -38,9 +38,9 @@ const Speech = ({setAction}) => {
     }
    
     return (
-        <div>
+        <div  className='border-2 border-black'>
             
-            <button  onClick={recognizeCommands}>Listening  for  command</button>
+            <button  onClick={recognizeCommands}  className='select-none  border-2  border-black'>Listening  for  command</button>
             {/* {action ? <div>{action}</div> : <div>No action detected  </div>} */}
         </div>
     )
