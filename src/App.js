@@ -15,7 +15,7 @@ function App() {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
       if (token) {
-        const verified = await axios.get("/users/verify", {
+        const verified = await axios.get("https://gentle-thicket-67896.herokuapp.com/users/verify", {
           headers: { Authorization: token },
         });
         console.log(verified);
