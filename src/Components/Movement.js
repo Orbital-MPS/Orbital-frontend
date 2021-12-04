@@ -31,7 +31,7 @@ const Movement = () => {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
       if (token) {
-        const verified = await axios.get("/users/verify", {
+        const verified = await axios.get("http://gentle-thicket-67896.herokuapp.com/users/verify", {
           headers: { Authorization: token },
         });
         console.log({ verified });
@@ -83,7 +83,7 @@ const Movement = () => {
 
   useEffect(() => {
                            //wss://gentle-thicket-67896.herokuapp.com/
-    const frontclient = new w3s("ws://localhost:5000/"); //  Initialize  the client
+    const frontclient = new w3s("wss://gentle-thicket-67896.herokuapp.com/"); //  Initialize  the client
     setClient(frontclient); //  Connect  client  with the server
     
   }, []);
