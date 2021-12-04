@@ -14,7 +14,7 @@ const SignUp = () => {
   const registerSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/users/register", {
+      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/register", {
         username: user.name,
         email: user.email,
         password: user.password,
