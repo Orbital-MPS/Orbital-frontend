@@ -94,7 +94,7 @@ console.log(err.msg);
 
                     <a
                     className="flex  flex-wrap"
-                    href="http://localhost:3001/projects/api/projects"
+                    href="https://master.d3ksrba71tzc64.amplifyapp.com/projects/api/projects"
                     >
                         {err.msg}
                         
