@@ -15,30 +15,31 @@ const Login = ({ setIsLogin }) => {
     setErr("");
   };
 
-  const registerSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/register", {
-        username: user.name,
-        email: user.email,
-        password: user.password,
-      });
-      setUser({ name: "", email: "", password: "" });
-      setErr(res.data.msg);
-    } catch (err) {
-      err.response.data.msg && setErr(err.response.data.msg);
-    }
-  };
+  // const registerSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {                           //https://gentle-thicket-67896.herokuapp.com/users/register PROD
+  //     const res = await axios.post("/users/register", {
+  //       username: user.name,
+  //       email: user.email,
+  //       password: user.password,
+  //     });
+  //     setUser({ name: "", email: "", password: "" });
+  //     setErr(res.data.msg);
+  //   } catch (err) {
+  //     err.response.data.msg && setErr(err.response.data.msg);
+  //   }
+  // };
 
   const loginSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/login", {
+    try {                             //https://gentle-thicket-67896.herokuapp.com/users/login  PROD
+      const res = await axios.post("/users/login", {
         email: user.email,
         password: user.password,
       });
       setUser({ name: "", email: "", password: "" });
       localStorage.setItem("tokenStore", res.data.token);
+      console.log('stored  token');
       setIsLogin(true);
     } catch (err) {
       err.response.data.msg && setErr(err.response.data.msg);
@@ -98,7 +99,7 @@ const Login = ({ setIsLogin }) => {
       </div>
       </div>
       </div>
-      <SignUp/>
+      {/* <SignUp/> */}
     </>
   );
 };

@@ -7,15 +7,26 @@ import Home from "./Components/Home";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SignUp from "./Components/SignUp";
+import Video from './Components/Video/Video'
+
+
+axios.defaults.baseURL = process.env.NODE_ENV  ===  'development' ? process.env.REACT_APP_DEV_BASEURL : process.env.REACT_APP_PROD_BASEURL  ;
+axios.defaults.withCredentials = true;
 
 function App() {
+
+
+ 
+
+
+
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
-      if (token) {
-        const verified = await axios.get("https://gentle-thicket-67896.herokuapp.com/users/verify", {
+      if (token) {                              //https://gentle-thicket-67896.herokuapp.com/users/verify  PROD
+        const verified = await axios.get("/users/verify", {
           headers: { Authorization: token },
         });
         console.log(verified);
@@ -27,11 +38,11 @@ function App() {
     };
     checkLogin();
   }, []);
-console.log(Routes)
-console.log(isLogin);
+
+console.log({isLogin});
   return (
     <Router>
-      <header className="h-max  fixed  w-full z-40 bg-gradient-to-t from-blue-100 via-indigo-500 to-purple-800">
+      <header className="h-max   relative   w-full z-40 bg-gradient-to-t from-blue-100 via-indigo-500 to-purple-800">
         <ul className="flex border-white border-4  border-opacity-20 max-w-screen flex-row-reverse ">
           <li className="p-2">
             <Link to="/" className="text-white fancy-link font-anton">
@@ -48,7 +59,7 @@ console.log(isLogin);
           </li>
           <li  className="p-2">
 
-          {isLogin  ?  <LogOut />:''}
+          {isLogin  ?  <LogOut logout={setIsLogin}/>:''}
           </li>
 
           {/* <li className='p-2'>
@@ -59,12 +70,16 @@ console.log(isLogin);
               Sign Up
             </Link>
           </li>
+        
+
         </ul>
       </header>
 
       <Routes>
-        <Route path="/projects/api/projects" element={<Movement />}/>
-        <Route path="/Login" element={<Login setIsLogIn={(isLogin, setIsLogin)} />}/>
+        <Route path="/projects/api/projects" element={<Movement  setIsLogin={setIsLogin} isLogin={isLogin} />}>
+        <Route path="me" element={<Video />} />              
+        </Route>
+        <Route path="/Login" element={<Login setIsLogIn={setIsLogin} />}/>
         <Route  path="/SignUp"  element={<SignUp/>}/>
           {/* <Login setIsLogIn={(isLogin, setIsLogin)} /> */}
 

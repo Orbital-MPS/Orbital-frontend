@@ -1,10 +1,26 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import  {shuffle}  from  'lodash'
 const SignUp = () => {
+  const colors = [
+    "text-indigo-500",
+    "text-blue-500",
+    "text-green-500",
+    "text-red-500",
+    "text-yellow-500",
+    "text-pink-500",
+    "text-purple-500",
+];
+
+
+  
+   
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [err, setErr] = useState({msg:'',text:''});
-
+  
+  const  navigate  =  useNavigate();
   const onChangeInput = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -13,14 +29,16 @@ const SignUp = () => {
 
   const registerSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("https://gentle-thicket-67896.herokuapp.com/users/register", {
+    try {                           //https://gentle-thicket-67896.herokuapp.com/users/register  PROD
+      const res = await axios.post("/users/register", {
         username: user.name,
         email: user.email,
         password: user.password,
+        color:shuffle(colors).pop()
       });
-      setUser({ name: "", email: "", password: "" });
-      setErr({msg:res.data.msg});
+      // setUser({ name: "", email: "", password: "" });
+      // setErr({msg:res.data.msg});
+      navigate('/projects/api/projects')
     } catch (err) {
       err.response.data.msg && setErr({msg:err.response.data.msg,text:err.response.data.msg.text});
     }
@@ -82,8 +100,8 @@ console.log(err.msg);
                 Register
               </button>
               <h3 className="fixed  top-20  right-0   bg-purple-400 opacity-75">
-                {err.msg  == 'Sign  up  Success' ? (
-                  <div  className="w-52">
+                {err.msg  == 'Sign up Success' ? (
+                  <div  className="w-52  ">
                     
                   <p>{err.msg}</p>
                  
@@ -93,8 +111,9 @@ console.log(err.msg);
                   
 
                     <a
-                    className="flex  flex-wrap"
-                    href="https://master.d3ksrba71tzc64.amplifyapp.com/projects/api/projects"
+                    className="flex  flex-wrap "
+                    //https://master.d3ksrba71tzc64.amplifyapp.com/projects/api/projects
+                    href="http://localhost:3001/projects/api/projects"
                     >
                         {err.msg}
                         

@@ -1,8 +1,20 @@
 import React from "react";
-
+import  Sidebar from  './Sidebar'
+import {useState}  from  'react'
 const Home = () => {
+  // const[show,setShow]=useState(true);
+  // const  Show =  ()=>{
+  //    setShow(!show)
+  //     console.log('object');
+  // }
+  const websocketURL1 =  process.env.NODE_ENV ==  'development' ? process.env.REACT_APP_DEV_WEBSOCKET : process.env.REACT_APP_PROD_WEBSOCKET 
+  console.log('here',websocketURL1) 
+  console.log(process.env.NODE_ENV)
+  
+  
   return (
-    <div className="overflow-y-scroll scrollbar-hide h-screen">
+    
+    <div className="overflow-y-scroll scrollbar-hide h-screen  w-screen fixed ">
       {/* <div className=" text-black w-max h-max text-lg">
         <video
           src={
@@ -25,11 +37,7 @@ const Home = () => {
     
         </header>
       </div>
-        <section className="h-screen relative grid grid-cols-3 gap-4 border-2 border-black ">
-          <div className="cols-span-3 border-2 border-black">
-            <p>Construction's part</p>
-            </div>SECTI
-        </section>
+       
     </div>
   );
 };

@@ -61,3 +61,26 @@
     0% {background-position: 0% 50%}
     100% {background-position: 100% 50% }
 }
+.m-fadeOut {
+  
+  
+    position: absolute;
+    left: -260px;;
+    animation: mymove 1s backwards;
+  }
+  @keyframes mymove {
+    from {left: 0px;}
+    to {left: -260px;}
+  }
+  .m-fadeIn {
+    /* visibility: visible;
+    transition:  ease-in-out 700ms, opacity 300ms; */
+    opacity: 1;
+    position: relative;
+    animation:mymoveback  1s  forwards;
+    
+  }
+  @keyframes mymoveback {
+    from {left: -260px;}
+    to {left: 0px;}
+  }

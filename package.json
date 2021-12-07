@@ -13,7 +13,9 @@
     "chart.js": "^2.9.3",
     "chartjs-plugin-streaming": "^1.8.0",
     "dotenv": "^10.0.0",
+    "jwt-decode": "^3.1.2",
     "leaflet": "^1.6.0",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-chartjs-2": "^2.9.0",
@@ -51,5 +53,5 @@
     "tailwind-scroll-behavior": "^1.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
-  "proxy": "https://gentle-thicket-67896.herokuapp.com/"
+  "proxy": "http://localhost:5000"
 }

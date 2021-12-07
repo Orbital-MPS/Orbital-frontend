@@ -1,37 +1,74 @@
 import React from "react";
-import { useEffect } from "react";
-import { BsArrowRightCircleFill } from "react-icons/bs";
-import { BsArrowLeftCircleFill } from "react-icons/bs";
-import { BsArrowUpCircleFill } from "react-icons/bs";
-import { BsArrowDownCircleFill } from "react-icons/bs";
+import { useEffect,useRef } from "react";
+import { BsArrowRightCircleFill as  Rmove } from "react-icons/bs";
+import { BsArrowLeftCircleFill as  Lmove} from "react-icons/bs";
+import { BsArrowUpCircleFill  as Umove } from "react-icons/bs";
+import { BsArrowDownCircleFill as  Dmove } from "react-icons/bs";
 import { useState } from "react";
 import { w3cwebsocket as w3s } from "websocket";
 import LiveChart from "./Charts";
 import { FaTemperatureHigh as TM } from "react-icons/fa";
 import Leaf from "./Gps";
-import { useRef } from "react";
+// import { useRef } from "react";
 import Speech from "./Tensorflow/Speech";
 import Login from "./Login";
 import axios from "axios";
+import Sidebar from "./Sidebar";
+import jwt_decode from "jwt-decode";
+import  {shuffle} from  'lodash'
 
-const Movement = () => {
+
+const Movement = ({setIsLogin,isLogin}) => {
+
+  const colors = [
+    "text-indigo-500",
+    "text-blue-500",
+    "text-green-500",
+    "text-red-500",
+    "text-yellow-500",
+    "text-pink-500",
+    "text-purple-500",
+];
+
+const [color,setColor] = useState(null);
+  const referenceLogs = useRef();
+
+
+
+    useEffect(() => {
+        setColor(shuffle(colors).pop());
+    }, [client])
   console.log("rubd");
-  const [isLogin, setIsLogin] = useState(false);
+  
 
   const [client, setClient] = useState();
   const [temp, setTemp] = useState(0);
-  const [gps, setGps] = useState([0, 0]);
+  const [gps, setGps] = useState([52.532481,13.485176 ]);
   const gpsCount = useRef(0);
   const [action, setAction] = useState(null);
   const [counter, setCounter] = useState(0);
   const [action1, setAction1] = useState("");
-  const [fromserver,setFromserver]  =  useState('');
-  const [users,setUsers] =  useState([])
+  const [fromserver, setFromserver] = useState("");
+  const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(true);
+
+
+  const websocketURL =  process.env.NODE_ENV  ==  'development' ? process.env.REACT_APP_DEV_WEBSOCKET : process.env.REACT_APP_PROD_WEBSOCKET   
+
+
+  const Show = () => {
+
+console.log(websocketURL);
+
+    setShow(!show);
+    console.log("object");
+  };
   useEffect(() => {
     const checkLogin = async () => {
       const token = localStorage.getItem("tokenStore");
       if (token) {
-        const verified = await axios.get("https://gentle-thicket-67896.herokuapp.com/users/verify", {
+        //https://gentle-thicket-67896.herokuapp.com/users/verify  prod
+        const verified = await axios.get("/users/verify", {
           headers: { Authorization: token },
         });
         console.log({ verified });
@@ -44,8 +81,18 @@ const Movement = () => {
     };
     checkLogin();
   }, []);
+  
+  useEffect(()=>{
+    if(!referenceLogs.current){
+      return
+    }
+    // console.log(    referenceLogs.current.scrollHeight);/
+    const divlogs = referenceLogs.current
+    divlogs.scrollTop = divlogs.scrollHeight
+
+  },[users])
   useEffect(() => {
-    //  Run websocket  CLIENT  and keep it active while client  is  connected
+    //  Left websocket  CLIENT  and keep it active while client  is  connected
     if (!client) {
       return;
     }
@@ -71,8 +118,15 @@ const Movement = () => {
             // console.log('LOCATION :', )
             console.log("COUNT :", gpsCount.current); // Add more feautures
             break;
-            case 'left':
-            setUsers(old=>[...old,'gosho'])
+          case "left":
+            // const jwt = localStorage.getItem("tokenStore");
+            //  const  decoded  =  jwt_decode(jwt)
+            //  console.log(decoded.name);
+            setUsers((old) => [...old, dataFromServer]);
+            break;
+            case 'right':
+            
+            setUsers((old) => [...old, dataFromServer]);
             break;
           default:
             break;
@@ -80,29 +134,45 @@ const Movement = () => {
       };
     };
   }, [client]);
-
+  
+ 
   useEffect(() => {
-                           //wss://gentle-thicket-67896.herokuapp.com/
-    const frontclient = new w3s("wss://gentle-thicket-67896.herokuapp.com/"); //  Initialize  the client
+    //wss://gentle-thicket-67896.herokuapp.com/  PROD
+    //ws://localhost:5000
+    const frontclient = new w3s(websocketURL); //  Initialize  the client
     setClient(frontclient); //  Connect  client  with the server
-    
   }, []);
 
-  const Run = () => {
+  const Left = (forward) => {
     //  Left  function  send  data to  the  server
+    const jwt = localStorage.getItem("tokenStore");
+    const  decoded  =  jwt_decode(jwt)
     client.send(
       JSON.stringify({
         x: 160,
-        type:'left'
+        type: "left",
+        user:decoded.name,
+        forward,
+        color:decoded.color
+      
+
       })
     );
   };
-  const Stop = () => {
+  const Right = (forward) => {
     // Set  default
+    const jwt = localStorage.getItem("tokenStore");
+    const  decoded  =  jwt_decode(jwt)
+    console.log(decoded);
     client.send(
       JSON.stringify({
         x: 120,
-        type:'forward'
+        type: "right",
+        user:decoded.name,
+        forward,
+        color:decoded.color
+        
+
       })
     );
   };
@@ -157,58 +227,87 @@ const Movement = () => {
     console.log("rUN");
   }, [action]);
   return (
-    <div className="fixed w-screen  ">
+    <div className="fixed w-screen h-max">
       {isLogin ? (
-        
-        <div className="sm:h-screen  sm:grid grid-cols-5 grid-flow-col gap-4 border-2 border-black pt-14 px-4 pb-4  ">
-          <Leaf coordinate={gps} ></Leaf>
-          <div className="row-start-1 row-end-2   col-start-1 col-end-2 border-2 border-black  sm:row-start-1 sm:row-end-2 ">
-            <LiveChart temp={temp} />
-          </div>
+        <div className="relative w-screen flex  items-stretch">
+          <Sidebar show={show} />
 
-          <div >
-          
-          </div>
-
-          <div className="col-span-1  ">
-            <div
-              onMouseDown={() => Run()}
-              onMouseUp={() => Stop()}
-              className="  border-black border-2 h-full  flex  items-center  place-content-evenly   "
-              type=""
-            >
-              <div className="">
-
-              <BsArrowLeftCircleFill size={70} />
+          <div className="sm:h-screen  sm:grid grid-cols-5 grid-flow-col gap-4 border-2 border-black pt-14 px-4 pb-4    ">
+            
+            <div className="z-0">
+              <Leaf coordinate={gps}></Leaf>
               </div>
-              <BsArrowRightCircleFill size={70} />
+            <div className="row-start-1 row-end-2   col-start-1 col-end-2 border-2 border-black  sm:row-start-1 sm:row-end-2 ">
+              <LiveChart temp={temp} />
             </div>
-          </div>
-          <div className="col-start-5 col-end-6 row-start-1  max-h-screen row-end-4   border-2 border-black overflow-y-scroll  scrollbar-hide  h-max select-none">LOGS <hr/>{users.map(u=><div  className="overflow-hidden">{u}:</div>)}</div>
-          
-          <div className="col-start-6 col-end-5 border-2 border-black grid place-items-center">
-            <div
-              onMouseDown={() => Up()}
-              className="  grid justify-items-center  m-6"
-              type=""
+
+            <div className="col-span-2 md:h-32  lg:h-full">
+              <div
+                className="  border-black border-2 h-full  flex  items-center  place-content-evenly   "
+                
+              >
+                <div className="" 
+                onMouseDown={() => Left(true)}
+                onMouseUp={() => Right(false)}
+                >
+                  <Lmove size={70} />
+                </div>
+                <div 
+                onMouseDown={() => Right(true)}
+                onMouseUp={() => Left(false)}
+                      >
+
+                <Rmove size={70} />
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => Show()}
+              className="absolute  top-10  right-10 z-1"
             >
-              <BsArrowUpCircleFill size={70} />
+              Menu
+            </button>
+            <div className="col-start-5 col-end-6 row-start-1  max-h-72 row-end-4   border-2 border-black overflow-y-scroll  scrollbar-hide   select-none" ref={referenceLogs}>
+              
+              LOGS <hr />
+
+              {users.map((u) => (  
+                u.forward &&  <div className={`overflow-hidden  ${u.color} text-xl  flex`}>User{u.user}clicked:{u.type}  
+                {u.type ==  'right' ? <div className="ml-5 relative top-2"><Rmove  size={15}/></div> :  ''  } 
+                {u.type ==  'left' ? <div className="ml-5 relative top-2"><Lmove  size={15}/></div> :  ''  }
+                 </div>
+              ))}
             </div>
-            <div className="  grid justify-items-center m-2">
-              <BsArrowDownCircleFill size={70} />
+
+            <div className="col-start-6 col-end-5 border-2 border-black grid place-items-center">
+              <div
+                onMouseDown={() => Up()}
+                className="  grid justify-items-center  m-6"
+                type=""
+              >
+                <Umove size={70} />
+              </div>
+              <div className="  grid justify-items-center m-2">
+                <Dmove size={70} />
+              </div>
             </div>
+            <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black select-none">
+              {fromserver}; 5
+            </div>
+            <Speech setAction={setAction} />
+            {action ? (
+              <div className="border-2  border-black">{action}</div>
+            ) : (
+              <div className="select-none border-2  border-black">
+                No action detected{" "}
+              </div>
+            )}
           </div>
-          <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black select-none">
-            {fromserver};
-            5
-          </div>
-          <Speech setAction={setAction} />
-          {action ? <div  className="border-2  border-black">{action}</div> : <div  className="select-none border-2  border-black">No action detected </div>}
         </div>
       ) : (
         <Login setIsLogin={setIsLogin} />
       )}
-      
+     
     </div>
   );
 };

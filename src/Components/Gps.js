@@ -34,7 +34,7 @@ const purpleOptions = { color: 'purple' }
     return(
 
 
-      <MapContainer center={center} zoom={13} scrollWheelZoom={true} style={{width:'100%' , height:'220%'}}>
+      <MapContainer center={center} zoom={17} scrollWheelZoom={true} style={{width:'100%' , height:'220%'}}>
       <TileLayer
       
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -42,26 +42,26 @@ const purpleOptions = { color: 'purple' }
       />
       <ChangeView center={coordinate}  />
       <LayerGroup>
-        <Circle center={center} pathOptions={fillBlueOptions} radius={200} />
+        <Circle center={center} pathOptions={fillBlueOptions} radius={10} />
         <Circle
           center={center}
           pathOptions={fillRedOptions}
-          radius={100}
+          radius={20}
           stroke={false}
         />
-        <LayerGroup>
+        {/* <LayerGroup>
           <Circle
             center={[27.20, 77.49]}
             pathOptions={greenOptions}
             radius={100}
           />
-        </LayerGroup>
+        </LayerGroup> */}
       </LayerGroup>
-      <FeatureGroup pathOptions={purpleOptions}>
+      {/* <FeatureGroup pathOptions={purpleOptions}>
         <Popup>Popup in FeatureGroup</Popup>
         <Circle center={[51.51, -0.06]} radius={200} />
         <Rectangle bounds={rectangle} />
-      </FeatureGroup>
+      </FeatureGroup> */}
     </MapContainer>
       
           
