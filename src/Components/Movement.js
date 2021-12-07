@@ -43,12 +43,12 @@ const [color,setColor] = useState(null);
 
   const [client, setClient] = useState();
   const [temp, setTemp] = useState(0);
-  const [gps, setGps] = useState([52.532481,13.485176 ]);
+  const [gps, setGps] = useState([50.979492,11.323544 ]);
   const gpsCount = useRef(0);
   const [action, setAction] = useState(null);
   const [counter, setCounter] = useState(0);
   const [action1, setAction1] = useState("");
-  const [fromserver, setFromserver] = useState("");
+  const [fromserver, setFromserver] = useState('');
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(true);
 
@@ -226,6 +226,7 @@ console.log(websocketURL);
     }
     console.log("rUN");
   }, [action]);
+  console.log(fromserver)
   return (
     <div className="fixed w-screen h-max">
       {isLogin ? (
@@ -272,7 +273,7 @@ console.log(websocketURL);
               LOGS <hr />
 
               {users.map((u) => (  
-                u.forward &&  <div className={`overflow-hidden  ${u.color} text-xl  flex`}>User{u.user}clicked:{u.type}  
+                u.forward &&  <div className={`overflow-hidden  ${u.color} text-xl  flex`}>{u.user}says: 
                 {u.type ==  'right' ? <div className="ml-5 relative top-2"><Rmove  size={15}/></div> :  ''  } 
                 {u.type ==  'left' ? <div className="ml-5 relative top-2"><Lmove  size={15}/></div> :  ''  }
                  </div>
@@ -291,9 +292,16 @@ console.log(websocketURL);
                 <Dmove size={70} />
               </div>
             </div>
+
+
+
             <div className="col-start-2 col-end-5 row-start-1  row-end-4 border-2 border-black select-none">
-              {fromserver}; 5
+              {fromserver}
             </div>
+
+
+
+
             <Speech setAction={setAction} />
             {action ? (
               <div className="border-2  border-black">{action}</div>
