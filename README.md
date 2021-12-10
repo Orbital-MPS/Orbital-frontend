@@ -38,5 +38,5 @@
 ###  From control panel in front  users can control one servo  and one DC motor.
 ###  Users can control it through the **voice**   as well
 
-<br>
+
 [DEMO](https://master.d3ksrba71tzc64.amplifyapp.com/)
