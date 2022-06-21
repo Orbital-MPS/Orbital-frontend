@@ -39,5 +39,9 @@
 ###  Users can control it through the **voice**   as well
 
 
+<<<<<<< HEAD
 
 #  [DEMO](https://master.d3ksrba71tzc64.amplifyapp.com/)
+=======
+## [DEMO](https://master.d3ksrba71tzc64.amplifyapp.com/)
+>>>>>>> 965deb405b3f3998d10dc7b02839ed0e9e5dce77
