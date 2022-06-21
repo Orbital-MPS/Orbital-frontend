@@ -177,10 +177,17 @@ console.log(websocketURL);
     );
   };
   const Up = () => {
+    const jwt = localStorage.getItem('tokenStore');
+    const decoded = jwt_decode(jwt)
+    console.log('decoded token',decoded)
     //  Forward  function
     client.send(
       JSON.stringify({
         y: 100,
+        type:'up',
+        user:decoded.name,
+        color:decoded.color
+
       })
     );
   };
